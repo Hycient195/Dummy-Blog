@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs') %>
+    <style>
+        a.title{
+            /* border-left: 5px solid red; */
+            padding-left: 5px;
+            color : rgb(9, 9, 92);
+            font-size: 23px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+        }
+        p.snippet{
+            color : royalblue;
+            padding-left: 10px;
+            font-family:monospace;
+            
+            font-size: 12px;
+        }
+        #search{
+            /* border: none !important; */
+            color: sienna;
+            padding : 0px 0px 0px 5px;
+            height : 45px;
+            /* border-radius: 20px; */
+            /* margin-right: 10px; */
+            /* border: 1px solid sienna; */
+        }
+        #search:focus{
+            border-left: 2px solid rgb(9, 182, 182);
+        }
+        #search-btn{
+            height : 45px;
+            width : 55px;
+            /* border-radius: 0px !important; */
+        }
+        .modal{
+            padding : 0px 20px 10px 20px;
+            border-radius : 10px;
+        }
+        p.snippet{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #user{
+            padding: 0 10px;
+        }
+
+        .btn.logout {
+            border-radius: 5px !important;
+        }
+        .btn.login{
+            border-radius: 5px !important;
+        }
+        .card{
+            width : 100% !important;
+            /* height : 200px !important; */
+        }
+        main{
+            padding-bottom: 100px;
+        }
+        
+        
+    </style>
+</head>
+<%- include('partials/header.ejs') %>
+
+<body class="orange lighten-5">
+
+    <div class="container row">
+        <% if(user ){ %>
+            <div class="">
+                <!-- <div class=" right yellow btn logout" id="logout">
+                    <a href="/logout" class="">logout</a>
+                </div> -->
+
+                <div class=" right" id="user">                  
+                    <b class="left"><%= user.username %></b> 
+                    <a href="" class="material-icons right">person</a>      
+                </div>            
+            </div>
+            
+        <% } else { %>
+            <!-- <div id="login" class="left">
+                <a href="/login-page" class="login btn orange">Login</a>
+            </div> -->
+        <% } %>
+
+    </div>
+
+    <% if(heading !== undefined){ %>
+        <div class="center"><%= heading %></div>
+    <% } %>
+    
+
+    <form action="/blog-posts/search" method="GET" class=" container row right">
+        <input type="text" class="col s9 white" id="search" 
+            name="search" placeholder="Search by title or writer">
+        <button class=" btn " id="search-btn"><i class="material-icons ">search</i></button>
+    </form>
+    <br>
+    <br>
+    
+
+    <main class="">
+  
+            <br>
+            <br>
+        
+            <div class="row">    
+                <% posts.forEach((item)=>{ %>
+                    
+                    
+                        <div class="col s12 m6 l3">
+                
+                            <div class="card"> 
+                                <div class="card-image">
+                                    <img src="/images/image-1.jpg" alt="">
+                                   
+                                </div>
+                                
+
+                                <div class="card-content">
+                                    <% if(user){ %>
+                                        <% if(user.username === item.submitter ){ %>
+                                            <a class=" brown-text modal-trigger trashcan right"
+                                                 href="#modal1" data-send="<%= item._id %>">
+                                               <i class="material-icons">
+                                                delete
+                                               </i>
+                                            </a>  
+            
+                                        <% } %> 
+                                    <% } %>
+                                    
+                                    <a href="/blogs/<%= item._id %>" class="title card-title">
+                                        <%= item.title %> 
+                                    </a><hr>
+                                    <p class="snippet"><%= item.content %></p>  
+                                </div>
+
+                                <div class="card-action">
+                                     
+                                    <a href="/blogs/<%= item._id %>" class="green-text text-accent-4">Read More..</a>
+
+
+                                    <!-- <a href="#" class="right ">
+                                        <i class="material-icons   grey-text text-accent-3 like-btns">thumb_up</i>
+                                    </a> -->
+                                    
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    
+                <% }) %>
+            </div>
+
+                
+            <div class="modal container yellow lighten-4" id="modal1">
+                <div class="modal-content">
+                    <p class="flow-text">
+                        are you sure you want to delete your post?
+                    </p>
+                </div>
+                <hr>
+                <div class="modal-footer yellow lighten-4">
+                    <button   class="delete btn red">Confirm</button>
+                    <button class="modal-close btn green accent-4">Cancel</button>
+                </div>
+            </div>
+
+    </main>
+
+    
+    
+</body>
+
+<%- include('partials/footer.ejs') %>
+
+<script>
+    let some 
+    const del = document.querySelector('.delete')
+    const trashCan = document.querySelectorAll('.trashcan')
+    const likeBtns  = document.querySelectorAll('.like-btns')
+
+    trashCan.forEach((trash)=>{
+        trash.addEventListener('click', ()=>{
+            some = trash.dataset.send
+        })
+    })
+
+    del.addEventListener('click', ()=>{
+        let blogId = `/blogs/delete/${some}`
+
+        console.log(`hello ${some}`)
+        fetch(blogId, {
+            method : 'DELETE'
+        })
+            .then(()=>{
+                location.reload()
+                console.log('delete request fired on ' + blogId)
+            })
+            .catch(()=>{
+                console.log('unable to execute delete request')
+            })
+ 
+
+    })
+
+    /* Changing the color of the like button when it is clicked*/
+    likeBtns.forEach((likeBtn)=>{
+        likeBtn.addEventListener('click', (event)=>{
+            event.preventDefault()
+            likeBtn.className = 'material-icons   blue-text text-accent-3 like-btns'
+        })
+    })
+    
+     /* triggering materialize modal */
+    var modal = document.querySelector('.modal')
+    M.Modal.init(modal)
+    
+</script>
+</html>

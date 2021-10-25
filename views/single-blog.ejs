@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('partials/head.ejs') %>
+        <style>
+            /* .delete{
+                position:fixed;
+                bottom : 5%;
+   
+                text-align :  center;
+            } */
+            main{
+                padding-bottom: 150px;
+            }
+        </style>
+    </head>
+    
+<body class="yellow lighten-5">
+    <%- include('partials/header.ejs') %>
+
+    <main>
+        <div class="container ">
+            <h4 class="section">
+                <%= data.title %>
+            </h4>
+            
+            <p class="flow-text">
+                <%= data.content %>
+            </p>
+
+            <h5 class="right">
+                Posted by - <%= data.submitter %>
+            </h5>
+
+            <!-- <% if(data.submitter == user){ %>
+                <a href="" id="delete"
+                    data-doc="<%= data._id %>"
+                     class="btn-floating btn-large delete brown">
+                    <i class="material-icons ">delete</i>
+                </a>
+            <% } %> -->
+            
+        </div>
+    </main>
+</body>
+<%- include('partials/footer.ejs') %>
+
+<script>
+   
+</script>
+</html>

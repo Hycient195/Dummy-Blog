@@ -1,0 +1,19 @@
+
+
+1. Download and install the Heroku CLI.
+
+   If you haven't already, log in to your Heroku account and follow the prompts to create a new SSH public key.
+
+2. $ heroku login
+  Clone the repository
+  Use Git to clone dummy-blog's source code to your local machine.
+	(optional)
+3. $ heroku git:clone -a <project name>
+4. $ cd <project name>
+
+  Deploy your changes
+  Make some changes to the code you just cloned and deploy them to Heroku using Git.
+
+5. $ git add .
+6. $ git commit -m "make it better"
+7. $ git push heroku master

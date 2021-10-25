@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs') %>
+    <style>
+        .avatar{
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+
+    <form class="container">
+        <div class="row">
+            <div class="col l5 hide-on-med-and-down">
+                <!-- <img src="" class="responsive-img" alt="side avatar"/> -->
+                <h4 class="center">Welcome To ThE DuMMy blOG</h4>
+                <hr>
+                <p class="flowtext">
+                    Welcome to this mini project of mine..
+                    Please, I'll really appreciate your feedbacks and 
+                    constructive criticism derived from touring around
+                    the functionalities of this basic web project.
+                    Thanks a lot in anticipation.. :)
+                </p>
+            </div>
+
+            <div class="">
+                <a href="/sign-up-page" class="btn right">Sign Up</a>
+            </div>
+
+            <div class="col s10 l6 offset-s1 push-l1">
+                <h4 class="center">Login</h4>
+                <div class="center">
+                    <img src="/avatars/login-avatar.png" alt="Student avatar" class="avatar"/>
+                </div>
+                <% if(required !== ""){ %>
+                    <h6 class="red-text center"><%= required %></h6>
+                <% } %>
+
+            <div class="input-field">
+                <i class="material-icons prefix" >person</i>
+                <label for="username">username</label>
+                <input id="username" type="text" name="username"/>
+            </div>
+
+            <!-- The username error field -->
+            <div class="">
+                <p class="red-text right" id="usernameError"></p>
+            </div>
+
+            <div class="input-field">
+                <i class="material-icons prefix" >lock</i>
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password"/>
+            </div>
+
+            <!-- The password error field -->
+            <div class="">
+                <p class="right red-text" id="passwordError"></p>
+            </div>
+
+            <!-- <div class="input-field">
+                <p>
+                    <label htmlFor="">
+                    
+                        <input name="remember" id=" remember" type="checkbox"/>
+                        <span>Remember me</span>
+                    </label>
+                </p> 
+            </div> -->
+
+ 
+
+            
+            <div class="center">
+                    Don't have an account? sign up above
+            </div>
+
+            <div class="input-field center">
+                <button type=" button" class="btn red accent-2">Login</button>
+            </div>
+
+  
+            
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const form = document.querySelector('form')
+        const usernameError = document.querySelector('#usernameError')
+        const passwordError = document.querySelector('#passwordError')
+    
+        form.addEventListener('submit', async (event)=>{
+            event.preventDefault()
+            const username = form.username.value
+            const password = form.password.value
+            console.log(username, password)
+
+            try {
+                const res = await fetch('/login',{
+                    method : 'POST',
+                    body : JSON.stringify({username, password}),
+                    headers : {'Content-Type' : 'application/json'},
+                    credentials : 'include'
+                })
+        
+                const data = await res.json()
+                console.log(data)
+
+                if(data.user){
+                    location.assign('/home')
+                }
+                if(data.error){
+                    usernameError.textContent = data.error.username
+                    passwordError.textContent = data.error.password
+                }
+
+            } catch ({error}) {
+                // console.log(error.username)
+                // console.log(error)
+            }
+    
+           
+        })
+    </script>
+    
+</body>
+
+</html>

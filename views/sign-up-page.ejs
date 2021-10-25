@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs') %>
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+    <form class="container">
+        <div class="input-field">
+            <label for=""></label>
+            <input type="text" class="" name="firstname" placeholder="First name" id="">
+        </div>
+        <!-- The firstname error field -->
+        <div class="right red-text" id="firstnameError"> </div>
+
+
+        <div class="input-field">
+            <label for=""></label>
+            <input type="text" class="" name="lastname" placeholder="Last name" >
+        </div>
+         <!-- The lastname error field -->
+         <div class="right red-text" id="lastnameError"> </div>
+
+
+        <div class="input-field">
+            <label for=""></label>
+            <input type="text" class="" name="username" placeholder="Username" >
+        </div>
+         <!-- The username error field -->
+         <div class="right red-text" id="usernameError"></div>
+
+
+        <div class="input-field">
+            <label for=""></label>
+            <input type="password" class="" name="password" placeholder="Password" >
+        </div>
+         <!-- The password error field -->
+         <div class="right red-text" id="passwordError"> </div>
+
+
+        <div class="">
+            <label for="male">
+                <input type="radio" name="gender" value="male" id="male">
+                <span>Male</span>
+            </label>
+            <label for="female">
+                <input type="radio" name=gender value="female" id="female">
+                <span>Female</span>
+            </label>
+            
+        </div>
+
+        <div class="input-field center">
+            <input type="submit" class="btn">
+        </div>
+    </form>
+
+
+    <script>
+
+        const form = document.querySelector('form')
+        const firstnameError = document.querySelector('#firstnameError')
+        const lastnameError = document.querySelector('#lastnameError')
+        const usernameError = document.querySelector('#usernameError')
+        const passwordError = document.querySelector('#passwordError')
+    
+        form.addEventListener('submit', async (event)=>{
+            event.preventDefault()
+    
+            const firstname = form.firstname.value
+            const lastname = form.lastname.value
+            const username = form.username.value
+            const password = form.password.value
+            const gender = form.gender.value
+            console.log(firstname, lastname, username, password, gender)
+    
+            const res = await fetch('/sign-up', {
+                method : 'POST',
+                body : JSON.stringify({
+                    firstname, lastname,
+                    username, password, gender
+                }),
+                headers: {"Content-type": "application/json; charset=UTF-8"},
+                credentials : 'include'
+            })
+    
+            const data = await res.json()
+            if(data.user){
+                location.assign('/')
+            }
+            if(data.error){
+                firstnameError.textContent = data.error.firstname
+                lastnameError.textContent = data.error.lastname
+                usernameError.textContent = data.error.username
+                passwordError.textContent = data.error.password
+                // gender = data.error.gender
+            }
+            console.log(data)
+    
+        })
+    
+    </script>
+</body>
+
+
+</html>

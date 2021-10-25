@@ -1,0 +1,13 @@
+
+
+As it is stated in the Error message you have to "fetch first." This worked for me. Use the command:
+Do this first and then follow the steps below
+
+Firstly run in git bast "git fetch heroku master"
+
+Then follow these steps to merge:
+
+1. "git pull heroku master"
+2. "git add ."
+3. "git commit -m 'your commit message"
+4. "git push heroku master"
