@@ -31,7 +31,15 @@
             <h5 class="right">
                 Posted by - <%= data.submitter %>
             </h5>
-
+            <br>
+            <br>
+            <h5 class="left" >
+              Date - <%= data.createdAt.toString().split(" ")[0] %> 
+              <%= data.createdAt.toString().split(" ")[1] %> 
+              <%= data.createdAt.toString().split(" ")[2] %> 
+              <%= data.createdAt.toString().split(" ")[3] %>  
+              <%= data.createdAt.toString().split(" ")[4] %> 
+            </h5>
             <!-- <% if(data.submitter == user){ %>
                 <a href="" id="delete"
                     data-doc="<%= data._id %>"
