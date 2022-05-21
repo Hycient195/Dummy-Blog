@@ -55,22 +55,20 @@ module.exports.signup_post = async(req, res) =>{
 
 
 module.exports.login_post = async(req, res) =>{
-    const { username, password } = req.body
-    // console.log(req.body)
+  const { username, password } = req.body
 
-    try {
-        const user = await UserModel.login(username, password)
-        const token = createToken(user._id)
-        res.cookie('jwt', token, {httpOnly : true, maxAge : maxAge * 1000})
-        res.json({user})
+  try {
+    const user = await UserModel.login(username, password)
+    const token = createToken(user._id)
+    res.cookie('jwt', token, {httpOnly : true, maxAge : maxAge * 1000})
+    res.json({user})
 
-    } catch (err) {
-        const error = errorHandler(err)
-        res.json({error})
-        console.log(error)
-        res.render('new-post-error')
-
-    }
+  } catch (err) {
+    const error = errorHandler(err)
+    res.json({error})
+    console.log(error)
+    res.render('new-post-error')
+  }
 }
 
 module.exports.new_post_post = async(req, res) =>{

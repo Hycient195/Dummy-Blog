@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 const DB_URL = 'mongodb+srv://Hycient:passwords@cluster0.d6mr2.mongodb.net/blog-database?retryWrites=true&w=majority'
-// const DB_URI = "mongodb://localhost/blog-database" go
+// const DB_URI = "mongodb://localhost/blog-database"
 mongoose.connect(DB_URL, {
     useNewUrlParser : true,
     useUnifiedTopology : true

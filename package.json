@@ -13,7 +13,8 @@
     "mongoose": "^5.10.13"
   },
   "scripts": {
-    "start": "node app"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "Hycient",
   "license": "ISC"
